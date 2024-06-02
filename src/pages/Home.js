@@ -17,12 +17,12 @@ const Home = () => {
   useEffect(() => {
     const q = query(collection(db, 'videos'));
     onSnapshot(q, (snapShot) => {
-      setVideos
-      (snapShot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }))
-     );
+      setVideos(
+        snapShot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }))
+      );
       // console.log('Fetched videos:', videoData); // Check the structure of the video data
     });
   }, []);
@@ -35,40 +35,37 @@ const Home = () => {
         dispatch(setUser(null))
       }
     })
-  })
+  }, [dispatch])
 
   return (
     <>
-    <>
-  <Sidebar  />
-  <div className="md:flex">
-    <div className="w-[calc(100%-240px)] h-[calc(100%-53px)] pt-16 bg-yt-black ml-60">
-      <div className="flex flex-row px-3 overflow-x-scroll relative scrollbar-hide">
-        {CategoryItems.map((item, i) => (
-          <h2
-            className="text-yt-white font-normal text-sm py-2 px-4 break-keep whitespace-nowrap bg-yt-light mr-3 cursor-pointer rounded-lg hover:bg-yt-light-1"
-            key={i}
-          >
-            {item}
-          </h2>
-        ))}
-      </div>
+      <Sidebar />
+      <div className="flex flex-col md:flex-row">
+        <div className="w-full md:w-[calc(100%-240px)] h-[calc(100vh-53px)] pt-16 bg-yt-black md:ml-60">
+          <div className="flex flex-row px-3 overflow-x-scroll relative scrollbar-hide">
+            {CategoryItems.map((item, i) => (
+              <h2
+                className="text-yt-white font-normal text-sm py-2 px-4 break-keep whitespace-nowrap bg-yt-light mr-3 cursor-pointer rounded-lg hover:bg-yt-light-1"
+                key={i}
+              >
+                {item}
+              </h2>
+            ))}
+          </div>
 
-      <div className="pt-12 px-5 grid grid-cols-yt gap-x-3 gap-y-8">
-        {videos.length === 0 ? (
-          <div className="h-[86vh]"></div>
-        ) : (
-          videos.map((video) => (
-            <Link to={`/video/${video.id}`} key={video.id}>
-              <Video {...video}/>
-            </Link>
-          ))
-        )}
+          <div className="pt-12 px-5 mx-auto w-full max-w-screen-lg grid grid-cols-yt gap-x-3 gap-y-8 sm:ml-0">
+            {videos.length === 0 ? (
+              <div className="h-[86vh]"></div>
+            ) : (
+              videos.map((video) => (
+                <Link to={`/video/${video.id}`} key={video.id}>
+                  <Video {...video} />
+                </Link>
+              ))
+            )}
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</>
-
     </>
   );
 };
